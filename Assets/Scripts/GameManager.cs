@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
     private int currentEncounterIndex = 0;
     private bool inCombat = false;
     private BossData currentBoss;
+    private DoorChoiceSystem doorChoiceSystem;
 
     public System.Action<EncounterType, string> OnEncounterStart;
     public System.Action<string> OnGameMessage;
@@ -43,6 +44,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        doorChoiceSystem = FindObjectOfType<DoorChoiceSystem>();
         InitializeEncounters();
         StartNextEncounter();
     }
@@ -94,20 +96,17 @@ public class GameManager : MonoBehaviour
     private void HandleNPCEncounter()
     {
         OnGameMessage?.Invoke("Торговец: Привет, путник! Вот мой товар...");
-        // Здесь будет диалог с NPC
-        Invoke("StartNextEncounter", 2f);
+        Invoke("SkipCurrentEncounter", 2f);
     }
 
     private void HandleChestEncounter()
     {
         OnGameMessage?.Invoke("Вы открыли сундук! Выберите способность...");
-        // Здесь будет UI для выбора способности
     }
 
     private void HandleDoorChoice()
     {
         OnGameMessage?.Invoke("Перед вами три двери...");
-        // Здесь будет UI для выбора двери
     }
 
     private void HandleBossEncounter()
@@ -115,6 +114,14 @@ public class GameManager : MonoBehaviour
         currentBoss = BossDatabase.Instance.GetRandomBoss();
         inCombat = true;
         OnGameMessage?.Invoke($"Появился босс: {currentBoss.bossName}!");
+    }
+
+    public void SelectDoor(int doorIndex)
+    {
+        if (doorChoiceSystem != null)
+        {
+            doorChoiceSystem.SelectDoor(doorIndex);
+        }
     }
 
     public void SkipCurrentEncounter()

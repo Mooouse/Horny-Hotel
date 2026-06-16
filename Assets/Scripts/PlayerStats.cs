@@ -1,6 +1,10 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+/// <summary>
+/// ТЕСТОВЫЙ КОММЕНТАРИЙ - Проверка синхронизации GitHub Desktop с Unity
+/// Если ты видишь этот комментарий в Unity - значит всё работает! ✓
+/// </summary>
 public class PlayerStats : MonoBehaviour
 {
     [System.Serializable]

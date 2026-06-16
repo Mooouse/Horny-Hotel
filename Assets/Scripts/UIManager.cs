@@ -51,7 +51,7 @@ public class UIManager : MonoBehaviour
 
     public void UpdateBossHealthBar(int currentHealth, int maxHealth)
     {
-        if (bossHealthBar != null)
+        if (bossHealthBar != null && maxHealth > 0)
         {
             bossHealthBar.fillAmount = (float)currentHealth / maxHealth;
         }
@@ -75,7 +75,6 @@ public class UIManager : MonoBehaviour
             AbilityData ability = abilities[i];
             buttonText.text = $"{ability.abilityName}\n{ability.description}";
 
-            int index = i;
             button.onClick.AddListener(() => OnAbilitySelected(ability));
         }
     }
@@ -98,8 +97,8 @@ public class UIManager : MonoBehaviour
             DoorChoiceSystem.DoorOption door = doors[i];
             buttonText.text = $"{door.doorName}\n{door.description}";
 
-            int index = i;
-            button.onClick.AddListener(() => GameManager.Instance.SelectDoor(index));
+            int doorIndex = i;
+            button.onClick.AddListener(() => GameManager.Instance.SelectDoor(doorIndex));
         }
     }
 

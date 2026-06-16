@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        doorChoiceSystem = FindObjectOfType<DoorChoiceSystem>();
+        doorChoiceSystem = FindAnyObjectByType<DoorChoiceSystem>();
         InitializeEncounters();
         StartNextEncounter();
     }

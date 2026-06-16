@@ -76,38 +76,41 @@ public class GameController : MonoBehaviour
     {
         // Персонаж идет к сундуку
         playerController.MoveToPosition(chestSpawnPoint.position);
+        Invoke("CompleteChestEncounter", 2f);
+    }
 
-        Invoke(() =>
-        {
-            playerController.StopMoving();
-            List<AbilityData> abilities = treasureChest.GetRandomAbilities(3);
-            uiManager.ShowAbilitySelection(abilities);
-        }, 2f);
+    private void CompleteChestEncounter()
+    {
+        playerController.StopMoving();
+        List<AbilityData> abilities = treasureChest.GetRandomAbilities(3);
+        uiManager.ShowAbilitySelection(abilities);
     }
 
     private void HandleDoorChoiceEncounter()
     {
         // Персонаж идет к дверям
         playerController.MoveToPosition(doorChoiceSpawnPoint.position);
+        Invoke("CompleteDoorEncounter", 2f);
+    }
 
-        Invoke(() =>
-        {
-            playerController.StopMoving();
-            doorChoiceSystem.PresentDoors();
-        }, 2f);
+    private void CompleteDoorEncounter()
+    {
+        playerController.StopMoving();
+        doorChoiceSystem.PresentDoors();
     }
 
     private void HandleBossEncounter()
     {
         // Персонаж идет к боссу
         playerController.MoveToPosition(bossSpawnPoint.position);
+        Invoke("CompleteBossEncounter", 2f);
+    }
 
-        Invoke(() =>
-        {
-            playerController.StopMoving();
-            BossData boss = GameManager.Instance.GetCurrentBoss();
-            combatSystem.StartCombat(boss);
-        }, 2f);
+    private void CompleteBossEncounter()
+    {
+        playerController.StopMoving();
+        BossData boss = GameManager.Instance.GetCurrentBoss();
+        combatSystem.StartCombat(boss);
     }
 
     private void HandleDoorSelected(DoorChoiceSystem.DoorType doorType)
@@ -153,10 +156,12 @@ public class GameController : MonoBehaviour
             uiManager.AddCombatLog("Вы были разбиты...");
         }
 
-        Invoke(() =>
-        {
-            GameManager.Instance.EndCombat(playerWon);
-        }, 2f);
+        Invoke("CompleteCombatEnd", 2f);
+    }
+
+    private void CompleteCombatEnd()
+    {
+        GameManager.Instance.EndCombat(true);
     }
 
     private void OnDestroy()
